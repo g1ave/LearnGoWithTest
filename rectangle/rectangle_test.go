@@ -13,14 +13,14 @@ func TestPerimeter(t *testing.T) {
 	t.Run("caculate the perimeter of rectangle", func(t *testing.T) {
 		rectangle := Rectangle{10.0, 10.0}
 
-		got := Perimeter(rectangle)
+		got := rectangle.Perimeter()
 		want := 40.0
 		assertCorrectMessage(t, got, want)
 	})
 
 	t.Run("caculate the area of the rectangle", func(t *testing.T) {
 		rectangle := Rectangle{12.0, 6.0}
-		got := Area(rectangle)
+		got := rectangle.Area()
 		want := 72.0
 		assertCorrectMessage(t, got, want)
 	})
