@@ -16,4 +16,10 @@ func TestPerimeter(t *testing.T) {
 		assertCorrectMessage(t, got, want)
 	})
 
+	t.Run("caculate the area of the rectangle", func(t *testing.T) {
+		got := Area(12.0, 6.0)
+		want := 72.0
+		assertCorrectMessage(t, got, want)
+	})
+
 }
