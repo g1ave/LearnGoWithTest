@@ -1,6 +1,8 @@
 package wallet
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestWallet(t *testing.T) {
 	wallet := Wallet{}
@@ -19,10 +21,16 @@ func TestWallet(t *testing.T) {
 // add Withdraw method
 func TestWithdraw(t *testing.T) {
 
-	assert := func(got Bitcoin, want Bitcoin, t *testing.T) {
+	assertBalance := func(got Bitcoin, want Bitcoin, t *testing.T) {
 		t.Helper()
 		if got != want {
 			t.Errorf("got %s but want %s", got, want)
+		}
+	}
+
+	assertError := func(t *testing.T, err error) {
+		if err == nil {
+			t.Error("want an error but did't get one")
 		}
 	}
 
@@ -33,7 +41,7 @@ func TestWithdraw(t *testing.T) {
 		got := wallet.Balance()
 		want := Bitcoin(10)
 
-		assert(got, want, t)
+		assertBalance(got, want, t)
 	})
 
 	t.Run("Withdraw", func(t *testing.T) {
@@ -42,6 +50,15 @@ func TestWithdraw(t *testing.T) {
 
 		got := wallet.Balance()
 		want := Bitcoin(10)
-		assert(got, want, t)
+		assertBalance(got, want, t)
+	})
+
+	t.Run("Withdraw insufficient funds", func(t *testing.T) {
+		startingBalance := Bitcoin(20)
+		wallet := Wallet{balance: startingBalance}
+		err := wallet.Withdraw(Bitcoin(100))
+
+		assertBalance(wallet.Balance(), startingBalance, t)
+		assertError(t, err)
 	})
 }
